@@ -46,9 +46,9 @@ function game() {
     }
 
     function switchPlayer() {
-        if (startingPlayer = "X") {
+        if (startingPlayer === "X") {
             turnCount % 2 === 0 ? currentPlayer = "X" : currentPlayer = "O";
-        } else if (startingPlayer = "O") {
+        } else if (startingPlayer === "O") {
             turnCount % 2 === 0 ? currentPlayer = "O" : currentPlayer = "X";
         }
     }
@@ -63,7 +63,11 @@ function game() {
         }
     }
 
-    function resetGame() {
+    function resetGame(winningSymbol) {
+        if (winningSymbol !== undefined) {
+            startingPlayer = winningSymbol;
+            currentPlayer = winningSymbol;
+        }
         playerX = player("", "X");
         playerO = player("", "O");
         turnCount = 0;
@@ -89,19 +93,17 @@ function game() {
         switch(winningSymbol) {
             case "X": 
                 console.log(`${playerX.getName()} wins the game!`);
-                startingPlayer = "X";
-                resetGame();
-                return true;
+                resetGame(winningSymbol);
+                return "win";
             case "O": 
                 console.log(`${playerO.getName()} wins the game!`);
-                startingPlayer = "O";
-                resetGame();
-                return true;
+                resetGame(winningSymbol);
+                return "win";
             default: 
                 if (fullBoard === 9) {
                     console.log("The game is a tie!");
                     resetGame();
-                    return true;
+                    return "tie";
                 } 
         }
     }
@@ -134,6 +136,7 @@ const displayBoard = (function() {
     const label = document.querySelector("label");
     const resetButton = document.querySelector("#reset-button");
     let currentPlayer;
+    let winOrTie;
 
     startGameButton.addEventListener("click", () => {
         if (playerXInput.value.length > 8 || playerOInput.value.length > 8) {
@@ -160,9 +163,15 @@ const displayBoard = (function() {
             activeGame.setCoordinate(square.dataset.x, square.dataset.y);
             square.textContent = currentPlayer.getSymbol();
             activeGame.playTurn();
-            if (activeGame.checkWinner(activeGame.getTurnCount())) {
+            winOrTie = activeGame.checkWinner(activeGame.getTurnCount())
+            if (winOrTie === "win") {
                 gameMessage.textContent = `${currentPlayer.getName()} WINS!!!`;
                 label.textContent = `${currentPlayer.getName()} WINS!!!`;
+                dialog.showModal();
+                return;
+            } else if (winOrTie === "tie"){
+                gameMessage.textContent = "The game is a tie!";
+                label.textContent = "The game is a tie!";
                 dialog.showModal();
                 return;
             }
