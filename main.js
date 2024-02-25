@@ -73,6 +73,12 @@ function game() {
             (gameBoard.getBoard()[2][0] !== "" && gameBoard.getBoard()[2][0] === gameBoard.getBoard()[1][1] && gameBoard.getBoard()[1][1] === gameBoard.getBoard()[0][2])) {
             winningSymbol = gameBoard.getBoard()[0][0];
         }
+        if (winningSymbol !== undefined) {
+            playerX = namePlayer("", "X");
+            playerO = namePlayer("", "O");
+            turnCount = 0;
+            gameBoard.resetBoard();
+        }
         switch(winningSymbol) {
             case "X": 
                 console.log(`${playerX.getName()} wins the game!`)
@@ -85,12 +91,6 @@ function game() {
                     console.log("The game is a tie!");
                     return true;
                 } 
-        }
-        if (winningSymbol !== undefined) {
-            playerX = namePlayer("", "X");
-            playerO = namePlayer("", "O");
-            turnCount = 0;
-            gameBoard.resetBoard();
         }
     }
 
