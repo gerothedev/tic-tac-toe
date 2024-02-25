@@ -1,4 +1,4 @@
-const gameBoard = (function() {
+function gameBoard() {
     let board = [["", "", ""],
                     ["", "", ""], 
                     ["", "", ""]];
@@ -10,10 +10,11 @@ const gameBoard = (function() {
     } 
 
     return { getBoard, markBoard, resetBoard };
-})()
+}
 
 function game() {
     let xCoord, yCoord, playerX, playerO, currentPlayer, turnCount;
+    const board = gameBoard();
 
     function namePlayer(name, xOrO) {
         if (xOrO === "X") {
@@ -48,12 +49,12 @@ function game() {
     }
 
     function playTurn() {
-        if (gameBoard.getBoard()[xCoord][yCoord] != "") {
+        if (board.getBoard()[xCoord][yCoord] != "") {
             return;
         } else {
-            currentPlayer === "X" ? gameBoard.markBoard(xCoord, yCoord, playerX.getSymbol()) :gameBoard.markBoard(xCoord, yCoord, playerO.getSymbol());
+            currentPlayer === "X" ? board.markBoard(xCoord, yCoord, playerX.getSymbol()) :board.markBoard(xCoord, yCoord, playerO.getSymbol());
             turnCount++;
-            console.table(gameBoard.getBoard());
+            console.table(board.getBoard());
         }
     }
 
@@ -61,25 +62,24 @@ function game() {
         playerX = player("", "X");
         playerO = player("", "O");
         turnCount = 0;
-        currentPlayer = "X";
-        gameBoard.resetBoard();
+        board.resetBoard();
     }
 
     function checkWinner(fullBoard) {
         let winningSymbol;
-        for (let i = 0; i < gameBoard.getBoard().length; i++) {
-            if (gameBoard.getBoard()[i][0] !== "" && gameBoard.getBoard()[i][0] === gameBoard.getBoard()[i][1] && gameBoard.getBoard()[i][1] === gameBoard.getBoard()[i][2]) {
-                winningSymbol = gameBoard.getBoard()[i][0];
+        for (let i = 0; i < board.getBoard().length; i++) {
+            if (board.getBoard()[i][0] !== "" && board.getBoard()[i][0] === board.getBoard()[i][1] && board.getBoard()[i][1] === board.getBoard()[i][2]) {
+                winningSymbol = board.getBoard()[i][0];
             }
         }
-        for (let i = 0; i < gameBoard.getBoard().length; i++) {
-            if (gameBoard.getBoard()[0][i] !== "" && gameBoard.getBoard()[0][i] === gameBoard.getBoard()[1][i] && gameBoard.getBoard()[1][i] === gameBoard.getBoard()[2][i]) {
-                winningSymbol = gameBoard.getBoard()[0][i];
+        for (let i = 0; i < board.getBoard().length; i++) {
+            if (board.getBoard()[0][i] !== "" && board.getBoard()[0][i] === board.getBoard()[1][i] && board.getBoard()[1][i] === board.getBoard()[2][i]) {
+                winningSymbol = board.getBoard()[0][i];
             }
         }
-        if ((gameBoard.getBoard()[0][0] !== "" && gameBoard.getBoard()[0][0] === gameBoard.getBoard()[1][1] && gameBoard.getBoard()[1][1] === gameBoard.getBoard()[2][2]) ||
-            (gameBoard.getBoard()[2][0] !== "" && gameBoard.getBoard()[2][0] === gameBoard.getBoard()[1][1] && gameBoard.getBoard()[1][1] === gameBoard.getBoard()[0][2])) {
-            winningSymbol = gameBoard.getBoard()[0][0];
+        if ((board.getBoard()[0][0] !== "" && board.getBoard()[0][0] === board.getBoard()[1][1] && board.getBoard()[1][1] === board.getBoard()[2][2]) ||
+            (board.getBoard()[2][0] !== "" && board.getBoard()[2][0] === board.getBoard()[1][1] && board.getBoard()[1][1] === board.getBoard()[0][2])) {
+            winningSymbol = board.getBoard()[0][0];
         }
         switch(winningSymbol) {
             case "X": 
