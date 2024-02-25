@@ -13,7 +13,7 @@ function gameBoard() {
 }
 
 function game() {
-    let xCoord, yCoord, playerX, playerO, currentPlayer, turnCount;
+    let xCoord, yCoord, playerX, playerO, startingPlayer, currentPlayer, turnCount;
     const board = gameBoard();
 
     function namePlayer(name, xOrO) {
@@ -25,6 +25,7 @@ function game() {
     }
 
     turnCount = 0;
+    startingPlayer = "X";
     currentPlayer = "X";
 
     function setCoordinate(x, y) {
@@ -45,7 +46,11 @@ function game() {
     }
 
     function switchPlayer() {
-        turnCount % 2 === 0 ? currentPlayer = "X" : currentPlayer = "O";
+        if (startingPlayer = "X") {
+            turnCount % 2 === 0 ? currentPlayer = "X" : currentPlayer = "O";
+        } else if (startingPlayer = "O") {
+            turnCount % 2 === 0 ? currentPlayer = "O" : currentPlayer = "X";
+        }
     }
 
     function playTurn() {
@@ -84,10 +89,12 @@ function game() {
         switch(winningSymbol) {
             case "X": 
                 console.log(`${playerX.getName()} wins the game!`);
+                startingPlayer = "X";
                 resetGame();
                 return true;
             case "O": 
                 console.log(`${playerO.getName()} wins the game!`);
+                startingPlayer = "O";
                 resetGame();
                 return true;
             default: 
